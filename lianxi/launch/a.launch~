@@ -1,0 +1,4 @@
+<launch>
+	<node name="lianxi1_pub" pkg="lianxi" type="lianxi1_pub"/>
+	<node name="lianxi1_sub" pkg="lianxi" type="lianxi1_sub"/>
+</launch>

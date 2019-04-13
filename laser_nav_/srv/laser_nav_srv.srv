@@ -1,0 +1,5 @@
+string base_frame_id
+string map_frame_id
+---
+float32[] x_map
+float32[] y_map
