@@ -2,11 +2,8 @@
 map_frame_id: map
 base_frame_id: base_link
 
-<<<<<<< HEAD
+
 goal_execution_time: 15.0
-=======
-goal_execution_time: 10.0
->>>>>>> 6029deb869c6703609388e283226548292b791b7
 min_traj_length: 0.2
 min_reward: 20.0
 max_sampling_tries: 30
@@ -29,11 +26,9 @@ num_kernels: 4
 std_vel: 0.2
 std_ang: 0.1
 std_fr: 0.02
-<<<<<<< HEAD
+
 num_particles: 8
-=======
-num_particles: 10
->>>>>>> 6029deb869c6703609388e283226548292b791b7
+
 resample_thresh: 0.33
 
 allow_unknown_targets: true
