@@ -6,7 +6,11 @@ goal_execution_time: 10.0
 min_traj_length: 0.2
 min_reward: 20.0
 max_sampling_tries: 30
+<<<<<<< HEAD
 frontier_distance_threshold: 1.0
+=======
+frontier_distance_threshold: 0.1
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 wait_between_planner_iterations: false
 
 lin_v_min : 0.3

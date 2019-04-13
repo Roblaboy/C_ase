@@ -16,6 +16,7 @@
 
 	<!-- Frontier exploration used as fallback solution -->
 	<node pkg="frontier_exploration" type="explore_server" name="frontier_exploration" output="screen">
+<<<<<<< HEAD
 		<param name="goal_aliasing" type="double" value="2.0"/>	    
 		<rosparam file="$(find ase_exploration)/param/frontier_exploration.yaml" command="load" ns="explore_costmap"/>
 	    
@@ -23,6 +24,13 @@
 
 	<!-- ase_exploration_node -->
 	<node pkg="ase_exploration" type="ase_exploration_planner_node_frontier" name="ase_exploration_planner_node_frontier" output="screen">
+=======
+	    <rosparam file="$(find ase_exploration)/param/frontier_exploration.yaml" command="load" ns="explore_costmap"/>
+	</node>
+
+	<!-- ase_exploration_node -->
+	<node pkg="ase_exploration" type="ase_exploration_planner_node" name="ase_exploration_planner_node" output="screen">
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 		<!-- Subscribed topics -->
 		<remap from="map" to="map"/>
 		<remap from="costmap" to="move_base/global_costmap/costmap"/>

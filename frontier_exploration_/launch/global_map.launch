@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0"?>
 <launch>
 	<!-- Turtlebot simulator with navigation -->
@@ -15,13 +16,23 @@
 	</node>
     <!-- Set to your sensor's range -->
     <arg name="sensor_range" default="5.0"/>
+=======
+<launch>
+
+    <!-- Set to your sensor's range -->
+    <arg name="sensor_range" default="1.0"/>
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 
     <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
 
     <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen" >
 
         <param name="frequency" type="double" value="2.0"/>
+<<<<<<< HEAD
         <param name="goal_aliasing" type="double" value="2.0"/>
+=======
+        <param name="goal_aliasing" type="double" value="$(arg sensor_range)"/>
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 
         #All standard costmap_2d parameters as in move_base, other than BoundedExploreLayer
         <rosparam ns="explore_costmap" subst_value="true">
@@ -56,7 +67,11 @@
 
             explore_boundary:
                 resize_to_boundary: false
+<<<<<<< HEAD
                 frontier_travel_point: centroid
+=======
+                frontier_travel_point: middle
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
                 #set to false for gmapping, true if re-exploring a known area
                 explore_clear_space: false
 
@@ -68,6 +83,10 @@
                 inflation_radius: 0.15
       </rosparam>
     </node>
+<<<<<<< HEAD
 	<!--  **************** Visualisation ****************  -->
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find ase_exploration)/rviz/simulator_exploration.rviz"/>
+=======
+
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 </launch>

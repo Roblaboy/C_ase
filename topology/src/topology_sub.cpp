@@ -125,7 +125,10 @@ void Topo::top_tree_update(const nav_msgs::OccupancyGrid &map_)
 	if(!tmap_point.empty())
 	{
 		std::map<int,int>::iterator it=tmap_value.begin();
+<<<<<<< HEAD
 		it++;
+=======
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 		for(it;it!=tmap_value.end();it++)
 		{
 			if(it->second != 0 && it->second != -1)
@@ -216,7 +219,11 @@ bool Topo::set_topology(top::Request &req,top::Response &res)
     top_srv.request.map_frame_id = map.header.frame_id;
 	if(top_nav.call(top_srv))
     {
+<<<<<<< HEAD
         ROS_INFO("Got candidate target point collection from laser_navigation");
+=======
+        ROS_INFO("Got next goal collection from laser_navigation");
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
                 
         //ROS_WARN("X:%f Y:%f",goal_pose.pose.position.x,goal_pose.pose.position.y);
 		geometry_msgs::Point m;
@@ -233,6 +240,10 @@ bool Topo::set_topology(top::Request &req,top::Response &res)
     }
 	boost::mutex::scoped_lock lock(map_lock);
 		ROS_INFO("\n/************************ top start **************************/");
+<<<<<<< HEAD
+=======
+		set_top = false;
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 		visualization_msgs::Marker top_marker;
 		visualization_msgs::Marker top_c_marker;
 		
@@ -259,6 +270,7 @@ bool Topo::set_topology(top::Request &req,top::Response &res)
 			tmap_point[id_] = current_point_map.point;
 			tmap_value[id_] = 0;
 			tmap_order[id_] = last_id;//last_id为上一轮选中的候选top节点的父节点
+<<<<<<< HEAD
 			//top_goal_pub.publish(current_point_map.point);
 			/*****   发布top图到RVIZ  ***********/
 			marker_top_pub(top_marker);
@@ -266,6 +278,9 @@ bool Topo::set_topology(top::Request &req,top::Response &res)
 			marker_top_c_pub(top_c_marker);
 		}
 					
+=======
+		}
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 		current = id_;
 		while(!laser_goal.empty())      //扫描栅格得到每个候选点的增益值
 		{   
@@ -289,12 +304,16 @@ bool Topo::set_topology(top::Request &req,top::Response &res)
 			{
 				ROS_INFO("top_map cost value: %d < %d,abandoned",value,Threshold_value);
 			}
+<<<<<<< HEAD
 			/*****   发布candidate top map到RVIZ  ***********/
 			marker_top_c_pub(top_c_marker);
+=======
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 			
 		}
 		//计算增益值最大的目标点
 		MaxGainId = Max_value_index();//获取当前候选节点中增益值最大的候选目标点
+<<<<<<< HEAD
 		//检测是否over
 		if(MaxGainId!=0)
 		{
@@ -338,6 +357,37 @@ bool Topo::set_topology(top::Request &req,top::Response &res)
 			return false;
 		}
 		
+=======
+		ROS_INFO("Next_goal id: %d ",MaxGainId);
+		/*****   发布candidate top map到RVIZ  ***********/
+		marker_top_c_pub(top_c_marker);
+		//将选中的候选目标点放弃，不进行以后的top map update,记录他的父节点，为下次记录新的top点做准备
+		tmap_value.at(MaxGainId) = -1;
+		last_id = tmap_order[MaxGainId];
+		//current = MaxGainId;//为下一次更新top图做准备,此处做了修改
+
+		//计算下个目标点的位姿
+		Next_goal.header.frame_id = map.header.frame_id;
+		Next_goal.pose.position = tmap_point.at(MaxGainId);
+		int father_index = tmap_order.at(MaxGainId);
+		ROS_INFO("father_index:%d",father_index);
+		geometry_msgs::Point father = tmap_point.at(father_index) ;
+		double dx = tmap_point.at(MaxGainId).x - father.x;
+		double dy = tmap_point.at(MaxGainId).y - father.y;
+		double theta = atan2(dy,dx);
+		Next_goal.pose.orientation.x = 0.0;
+		Next_goal.pose.orientation.y = 0.0;
+		Next_goal.pose.orientation.z = sin(theta/2);
+		Next_goal.pose.orientation.w = cos(theta/2);
+
+		/***********发布目标点**************/
+		top_goal_pub.publish(Next_goal);
+		res.Next_goal = Next_goal;
+
+		/*****   发布top图到RVIZ  ***********/
+		marker_top_pub(top_marker);
+		return true;
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 	
 	
 }
@@ -374,7 +424,10 @@ int Topo::Max_value_index()
 	double gain = 0;
 	std::vector<int> line;
 	std::map<int,int>::iterator it=tmap_value.begin();
+<<<<<<< HEAD
 	it++;
+=======
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 	for(it;it!=tmap_value.end();it++)
 	{
 		if(it->second != 0)

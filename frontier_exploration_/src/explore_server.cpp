@@ -39,7 +39,11 @@ public:
         retry_(5)
     {
         private_nh_.param<double>("frequency", frequency_, 0.0);
+<<<<<<< HEAD
         private_nh_.param<double>("goal_aliasing", goal_aliasing_, 2.0);
+=======
+        private_nh_.param<double>("goal_aliasing", goal_aliasing_, 0.1);
+>>>>>>> 6029deb869c6703609388e283226548292b791b7
 
         explore_costmap_ros_ = boost::shared_ptr<costmap_2d::Costmap2DROS>(new costmap_2d::Costmap2DROS("explore_costmap", tf_listener_));
 
