@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+<!-- hokuyo driver and hokuyo_node -->	
+	<include file="$(find hokuyo_node)/my_hokuyo_laser.launch" />
+	<!-- Frontier exploration -->
+	<include file="$(find frontier_exploration)/launch/no_global_map.launch" />
+
+</launch>

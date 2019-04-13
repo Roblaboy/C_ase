@@ -1,0 +1,5 @@
+float32[] laser_data
+geometry_msgs/PoseStamped base
+geometry_msgs/PoseStamped goal_pose
+---
+geometry_msgs/PoseStamped laser_goal_pose
