@@ -16,10 +16,11 @@ using namespace std;
 //void transformPoint();
 //double ori_cal(int a,int b);
 float Pi=3.141592654;
-//float laser_angle_step_deg=0.375;
+float laser_angle_step_deg=0.375;
 float max_dist=5.0;
 float Robot_max_dia=0.6;
 float omiga=Pi/4;
+int   length = 720;
 
 class laser_nav
 {
@@ -32,8 +33,6 @@ class laser_nav
     ros::ServiceServer service;
     ros::Subscriber scan_sub;
     ros::Publisher laser_goal_pub;
-    float laser_angle_step_deg;
-    int   laser_length;
     bool laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
             laser_nav_::laser_nav_srv::Response &res);
         
@@ -54,7 +53,7 @@ int laser_nav::seq_point_numbers()
 {
     int num=0;
     //num=Robot_max_dia/max_dist/Pi*180/laser_angle_step_deg+1;
-    num = 180/Pi*acos(double(1-pow(2*Robot_max_dia,2)/(2*max_dist*max_dist)))/laser_angle_step_deg;
+    num = 180/Pi*acos(double(1-pow(3/2*Robot_max_dia,2)/(2*max_dist*max_dist)))/laser_angle_step_deg;
     ROS_INFO("num=%d",num);
     return num;
 }
@@ -114,7 +113,7 @@ bool laser_nav::laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
     int start_n,end_n,j=0;
     float theta=0.0;
     std::vector<float> x,y;
-    ranges=laser_length;
+    ranges=length;
     for(int i=1;i<ranges;i++)
     {
     //****************一类目标点*********************//
@@ -132,8 +131,8 @@ bool laser_nav::laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
                     end_n=j;//遇到第一个不连续点，并且在这之前已经有连续的14个最远点，标记此弧线末端激光位置
                     ROS_INFO("i:%d j:%d",i,j);
                     theta=ori_cal(i,j);
-                    x.push_back(4.5*sin(theta-omiga));
-                    y.push_back(-4.5*cos(theta-omiga));                   
+                    x.push_back(4.4*sin(theta-omiga));
+                    y.push_back(-4.4*cos(theta-omiga));                   
                     disc=0;
                     i=j;
                     break;//扫完一段边界，跳出这层for循环
@@ -142,7 +141,7 @@ bool laser_nav::laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
             }
         }
         //****************二类目标点*********************//
-        if(fabs(laser_data[i]-laser_data[i-1])>=1.5*Robot_max_dia)
+        if(fabs(laser_data[i]-laser_data[i-1])>=2*Robot_max_dia)
         {
             if((laser_data[i]<max_dist)&&(laser_data[i-1]<max_dist))
             {
@@ -153,8 +152,8 @@ bool laser_nav::laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
                     float min_dist = laser_data[i];
                     int max_id = i-1;
                     int min_id = i;
-                    int m = 180/Pi*2*asin(1/2*Robot_max_dia/(2*min_dist))/laser_angle_step_deg;//计算文章中公式11中的m
-                    theta = laser_nav::ori_cal(max_id,max_id)-acos(1-0.5*Robot_max_dia/2/pow(max_dist+min_dist,2));
+                    int m = 180/Pi*2*asin(3/2*Robot_max_dia/(2*min_dist))/laser_angle_step_deg;//计算文章中公式11中的m
+                    theta = laser_nav::ori_cal(max_id,max_id);
                     float X = 0.5*(max_dist+min_dist)*sin(theta-omiga);
                     float Y = -0.5*(max_dist+min_dist)*cos(theta-omiga);
                     float h = sqrt(X*X+Y*Y)+0.5*Robot_max_dia;
@@ -170,8 +169,8 @@ bool laser_nav::laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
                     float min_dist = laser_data[i-1];
                     int max_id = i;
                     int min_id = i-1;
-                    int m = 180/Pi*2*asin(1/2*Robot_max_dia/(2*min_dist))/laser_angle_step_deg;
-                    theta = laser_nav::ori_cal(max_id,max_id)+acos(1-0.5*Robot_max_dia/2/pow(max_dist+min_dist,2));
+                    int m = 180/Pi*2*asin(3/2*Robot_max_dia/(2*min_dist))/laser_angle_step_deg;
+                    theta = laser_nav::ori_cal(max_id,max_id);
                     float X = 0.5*(max_dist+min_dist)*sin(theta-omiga);
                     float Y = -0.5*(max_dist+min_dist)*cos(theta-omiga);
                     float h = sqrt(X*X+Y*Y)+0.5*Robot_max_dia;
@@ -221,26 +220,15 @@ bool laser_nav::laser_nav_server(laser_nav_::laser_nav_srv::Request &req,
         laser_goal_pub.publish(marker);
         x.clear();
         y.clear();
-
-        return true;
     }
-    else
-    {
-        laser_goal_pub.publish(marker);
-        return false;
-    }
-    
+    return true;
 }
 
 
 
 laser_nav::laser_nav()
 {
-
-    n.param<float>("laser_angle_step_deg",laser_angle_step_deg,0.36);
-    n.param<int>("laser_length",laser_length,666);
-    laser_data = new float[laser_length];
-
+    laser_data = new float[length];
     scan_sub = n.subscribe<sensor_msgs::LaserScan>("/scan",1,&laser_nav::scancallback,this);
     service = n.advertiseService("select_laser_nav_goal", &laser_nav::laser_nav_server,this);
     laser_goal_pub = n.advertise<visualization_msgs::Marker>( "laser_goal", 10 );
