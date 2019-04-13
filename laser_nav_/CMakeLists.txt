@@ -125,11 +125,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(laser_nav_node src/laser_nav_server.cpp)
 target_link_libraries(laser_nav_node ${catkin_LIBRARIES})
-<<<<<<< HEAD
 add_executable(laser_nav_s_node src/laser_nav_s_server.cpp)
-=======
-add_executable(laser_nav_s_node src/laser_nav_server_s.cpp)
->>>>>>> 6029deb869c6703609388e283226548292b791b7
 target_link_libraries(laser_nav_s_node ${catkin_LIBRARIES})
 ###add_dependencies(laser_nav_node laser_nav__gencpp)
 ## Rename C++ executable without prefix
