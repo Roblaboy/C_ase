@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-<<<<<<< HEAD
 	<!-- Turtlebot simulator with navigation 
 	<include file="$(find ase_exploration)/launch/turtlebot_simulator.launch">
 		<arg name="map_file" value="$(find ase_exploration)/maps/map.yaml"/>
@@ -16,22 +15,15 @@
 	</node>
     <!-- Set to your sensor's range -->
     <arg name="sensor_range" default="5.0"/>
-=======
-    <!-- Set to your sensor's range -->
-    <arg name="sensor_range" default="50.0"/>
->>>>>>> 6029deb869c6703609388e283226548292b791b7
 
     <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
 
     <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen" >
 
-<<<<<<< HEAD
+
         <param name="frequency" type="double" value="1.0"/>
         <param name="goal_aliasing" type="double" value="3.0"/>
-=======
-        <param name="frequency" type="double" value="2.0"/>
-        <param name="goal_aliasing" type="double" value="$(arg sensor_range)"/>
->>>>>>> 6029deb869c6703609388e283226548292b791b7
+
 
         #All standard costmap_2d parameters as in move_base, other than BoundedExploreLayer
         <rosparam ns="explore_costmap" subst_value="true">
@@ -58,11 +50,9 @@
 
             explore_boundary:
                 resize_to_boundary: true
-<<<<<<< HEAD
+
                 frontier_travel_point: centroid
-=======
-                frontier_travel_point: closest
->>>>>>> 6029deb869c6703609388e283226548292b791b7
+
 
             sensor:
                 observation_sources: laser
@@ -72,9 +62,8 @@
                 inflation_radius: 0.15
       </rosparam>
     </node>
-<<<<<<< HEAD
+
 <!--  **************** Visualisation ****************  -->
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find ase_exploration)/rviz/simulator_exploration.rviz"/>
-=======
->>>>>>> 6029deb869c6703609388e283226548292b791b7
+
 </launch>
