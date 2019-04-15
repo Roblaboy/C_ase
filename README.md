@@ -30,7 +30,7 @@ ROS Node details: ase_exploration_planner_node
 This node provides an implementation of the SimpleActionServer for the ExploreAction type defined in this package. This action is provided with the name exploration. Your best bet to get started is probably to use actionlib's axclient to send an action request to start exploration: rosrun actionlib axclient.py /exploration.
 
 2.Actions called
-The exploration targets produced by the planner are sent as navigation goals to move_base. This is handled by a SimpleActionClient calling an move_base_msgs::MoveBaseAction on the topic move_base.
+The exploration targets produced by the planner are sent as navigation goals to move_base. This is handled by a SimpleActionClient calling an move_base_msgs::MoveBaseAction on the topic move_base. 
 
 3. Services required
 This node requires and calls one service from the topology package. It is:
